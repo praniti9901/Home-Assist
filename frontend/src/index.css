@@ -1,22 +1,93 @@
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@100..900&display=swap');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-*{
-    font-family: Outfit;
+* {
+  font-family: 'Inter', 'Outfit', sans-serif;
+  box-sizing: border-box;
 }
 
-.active hr{
-    @apply block
+html {
+  scroll-behavior: smooth;
 }
 
-@media (max-width:740px) {
-    .active  p{
-       @apply text-white bg-primary
-    }
+body {
+  background-color: #f9fafb;
+  color: #111827;
 }
 
-::-webkit-scrollbar{
-    @apply hidden
+/* Active NavLink underline indicator */
+.active hr {
+  @apply block;
+}
+
+@media (max-width: 740px) {
+  .active p {
+    @apply text-white bg-primary rounded-lg;
+  }
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+::-webkit-scrollbar-track {
+  background: #f1f5f9;
+}
+::-webkit-scrollbar-thumb {
+  background: #22c55e88;
+  border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #22c55e;
+}
+
+/* Glassmorphism card */
+.glass-card {
+  background: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+}
+
+/* Gradient text utility */
+.gradient-text {
+  background: linear-gradient(135deg, #22c55e, #16a34a);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Smooth button transition */
+.btn-primary {
+  @apply bg-primary text-white font-medium px-6 py-2.5 rounded-full transition-all duration-300 hover:shadow-lg hover:shadow-green-200 hover:scale-[1.03] active:scale-95;
+}
+
+.btn-outline {
+  @apply border-2 border-primary text-primary font-medium px-6 py-2.5 rounded-full transition-all duration-300 hover:bg-primary hover:text-white hover:shadow-lg hover:shadow-green-200 active:scale-95;
+}
+
+/* Card hover effect */
+.worker-card {
+  @apply border border-gray-100 rounded-2xl overflow-hidden bg-white shadow-sm transition-all duration-300 hover:-translate-y-1.5 hover:shadow-lg hover:border-green-200;
+}
+
+/* Section title styling */
+.section-title {
+  @apply text-3xl font-bold text-gray-800;
+}
+.section-subtitle {
+  @apply text-gray-500 text-sm text-center max-w-sm mx-auto;
+}
+
+/* Input field */
+.form-input {
+  @apply border border-gray-200 rounded-xl w-full px-4 py-3 mt-1 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition-all bg-gray-50 hover:bg-white;
+}
+
+/* Status badge */
+.badge-available {
+  @apply flex items-center gap-1.5 text-xs font-medium text-emerald-600 bg-emerald-50 px-2.5 py-1 rounded-full w-fit;
 }

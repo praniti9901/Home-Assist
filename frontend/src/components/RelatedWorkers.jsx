@@ -3,39 +3,60 @@ import { useNavigate } from 'react-router-dom'
 import { AppContext } from '../context/AppContext'
 
 const RelatedWorkers = ({ speciality, docId }) => {
+  const navigate = useNavigate()
+  const { workers } = useContext(AppContext)
+  const [relDoc, setRelDoc] = useState([])
 
-    const navigate = useNavigate()
-    const { workers } = useContext(AppContext)
+  useEffect(() => {
+    if (workers.length > 0 && speciality) {
+      const workersData = workers.filter((doc) => doc.speciality === speciality && doc._id !== docId)
+      setRelDoc(workersData)
+    }
+  }, [workers, speciality, docId])
 
-    const [relDoc, setRelDoc] = useState([])
+  if (relDoc.length === 0) return null
 
-    useEffect(() => {
-        if (workers.length > 0 && speciality) {
-            const workersData = workers.filter((doc) => doc.speciality === speciality && doc._id !== docId)
-            setRelDoc(workersData)
-        }
-    }, [workers, speciality, docId])
+  return (
+    <section className='py-16'>
+      <div className='text-center mb-10'>
+        <span className='inline-block text-primary text-xs font-semibold tracking-wider uppercase bg-primary/10 px-4 py-1.5 rounded-full mb-4'>
+          More Like This
+        </span>
+        <h2 className='text-2xl md:text-3xl font-bold text-gray-800 mb-2'>
+          Related Service Providers
+        </h2>
+        <p className='text-gray-400 text-sm max-w-xs mx-auto'>
+          Other verified experts in the same category.
+        </p>
+      </div>
 
-    return (
-        <div className='flex flex-col items-center gap-4 my-16 text-gray-900'>
-            <h1 className='text-3xl font-medium'>Related Service Provider</h1>
-            <p className='sm:w-1/3 text-center text-sm'>Simply browse through our extensive list of trusted service provider.</p>
-            <div className='w-full grid grid-cols-auto gap-4 pt-5 gap-y-6 px-3 sm:px-0'>
-                {relDoc.map((item, index) => (
-                    <div onClick={() => { navigate(`/booking/${item._id}`); window.scrollTo(0, 0) }} className='border border-blue-200 rounded-xl overflow-hidden cursor-pointer hover:translate-y-[-10px] transition-all duration-500' key={index}>
-                        <img className='bg-blue-100' src={item.image} alt="" />
-                        <div className='p-4'>
-                            <div className='flex items-center gap-2 text-sm text-center text-green-500'>
-                                <p className='w-2 h-2 bg-green-500 rounded-full'></p><p>Available</p>
-                            </div>
-                            <p className='text-gray-900 text-lg font-medium'>{item.name}</p>
-                            <p className='text-gray-600 text-sm'>{item.speciality}</p>
-                        </div>
-                    </div>
-                ))}
+      <div className='grid grid-cols-auto gap-5'>
+        {relDoc.slice(0, 6).map((item, index) => (
+          <div
+            key={index}
+            onClick={() => { navigate(`/booking/${item._id}`); window.scrollTo(0, 0) }}
+            className='worker-card group'
+          >
+            <div className='overflow-hidden bg-gradient-to-br from-emerald-50 to-green-100 aspect-[4/3]'>
+              <img
+                className='w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-105'
+                src={item.image}
+                alt={item.name}
+              />
             </div>
-        </div>
-    )
+            <div className='p-4'>
+              <div className='badge-available mb-2'>
+                <span className='w-1.5 h-1.5 bg-emerald-500 rounded-full animate-pulse' />
+                Available
+              </div>
+              <p className='text-gray-800 font-semibold text-base mb-1'>{item.name}</p>
+              <p className='text-gray-400 text-xs'>{item.speciality}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </section>
+  )
 }
 
 export default RelatedWorkers
